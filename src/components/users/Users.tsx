@@ -8,9 +8,11 @@ export const Users = () => {
 
   return (
     <SectionWrapper title="Users">
-      {users.map(({ balance, id }) => (
-        <User key={id} balance={balance} id={id} />
-      ))}
+      <S.UsersWrapper>
+        {users.map(({ balance, id }) => (
+          <User key={id} balance={balance} id={id} />
+        ))}
+      </S.UsersWrapper>
     </SectionWrapper>
   );
 };

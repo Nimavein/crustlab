@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-export const UsersWrapper = styled.section`
-  padding: 20px;
+export const UsersWrapper = styled.div`
   background: ${({ theme }) => theme.color.black};
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

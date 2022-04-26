@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "antd/dist/antd.css";
+import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
 import { App } from "./App";

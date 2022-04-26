@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { AvailableCurrencies } from "../users/usersSlice";
 
 export type TransactionType = {
-  id: number;
+  id: string;
   type: "Exchange" | "Transfer" | "Withdraw" | "Deposit";
   createdAt: number;
   userId?: number;

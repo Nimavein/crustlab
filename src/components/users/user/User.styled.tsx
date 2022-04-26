@@ -1,7 +1,9 @@
 import { Card as AntCard } from "antd";
 import styled from "styled-components";
 
-export const Card = styled(AntCard)``;
+export const Card = styled(AntCard)`
+  width: 100%;
+`;
 export const BalanceDetails = styled.div`
   display: flex;
   flex-direction: column;

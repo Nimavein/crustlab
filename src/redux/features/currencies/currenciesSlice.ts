@@ -18,9 +18,15 @@ export const fetchCurrencies = createAsyncThunk(
   }
 );
 
+type CurrencyValueType = {
+  PLN: number;
+  USD: number;
+  EUR: number;
+};
+
 type CurrencyType = {
   symbol: string;
-  value: number;
+  value: CurrencyValueType[];
 };
 
 type CurrenciesState = {

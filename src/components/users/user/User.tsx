@@ -8,8 +8,7 @@ type UserProps = {} & UserStateType;
 
 export const User = ({ balance, id }: UserProps) => {
   return (
-    <S.Card>
-      User {id}
+    <S.Card title={`User ${id}`}>
       <S.BalanceDetails>
         {balance.map(({ symbol, amount }: CurrencyType) => {
           return (
