@@ -1,0 +1,5 @@
+[
+  { "symbol": "PLN", "toUSD": 0.23, "toEUR": 0.22 },
+  { "symbol": "EUR", "toPLN": 4.65, "toUSD": 1.07 },
+  { "symbol": "USD", "toPLN": 4.37, "toEUR": 0.93 }
+]
