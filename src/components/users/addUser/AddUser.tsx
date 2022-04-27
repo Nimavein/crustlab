@@ -55,8 +55,8 @@ export const AddUser = ({ setIsModalVisible }: AddUserPropsType) => {
                 required: "Amount is required.",
                 validate: {
                   isPositive: (value) =>
-                    amountConverter(parseFloat(value)) > 0 ||
-                    `The amount must be greater than 0.`,
+                    amountConverter(parseFloat(value)) >= 0 ||
+                    `The amount must be 0 or greater than 0.`,
                 },
               })}
               name={currency.symbol}
