@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { amountConverter } from "../../../helpers/amountConverter";
 
 export type CurrencyType = {
   symbol: string;
@@ -75,10 +76,10 @@ export const usersSlice = createSlice({
       );
       sendingUser!.balance.find(
         (currency) => currency.symbol === action.payload.currency
-      )!.amount -= action.payload.amount;
+      )!.amount -= amountConverter(action.payload.amount);
       receivingUser!.balance.find(
         (currency) => currency.symbol === action.payload.currency
-      )!.amount += action.payload.amount;
+      )!.amount += amountConverter(action.payload.amount);
     },
     exchangeCurrency(state, action: PayloadAction<ExchangeType>) {
       const exchangingUser = state.find(
@@ -86,10 +87,10 @@ export const usersSlice = createSlice({
       );
       exchangingUser!.balance.find(
         (currency) => currency.symbol === action.payload.currencyFrom
-      )!.amount -= action.payload.amountFrom;
+      )!.amount -= amountConverter(action.payload.amountFrom);
       exchangingUser!.balance.find(
         (currency) => currency.symbol === action.payload.currencyTo
-      )!.amount += action.payload.amountTo;
+      )!.amount += amountConverter(action.payload.amountTo);
     },
     withdrawFunds(state, action: PayloadAction<FundsOperationType>) {
       const withdrawingUser = state.find(
@@ -97,7 +98,7 @@ export const usersSlice = createSlice({
       );
       withdrawingUser!.balance.find(
         (currency) => currency.symbol === action.payload.currency
-      )!.amount -= action.payload.amount;
+      )!.amount -= amountConverter(action.payload.amount);
     },
     depositFunds(state, action: PayloadAction<FundsOperationType>) {
       const depositingUser = state.find(
@@ -105,7 +106,7 @@ export const usersSlice = createSlice({
       );
       depositingUser!.balance.find(
         (currency) => currency.symbol === action.payload.currency
-      )!.amount += action.payload.amount;
+      )!.amount += amountConverter(action.payload.amount);
     },
   },
 });

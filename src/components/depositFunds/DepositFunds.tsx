@@ -10,6 +10,7 @@ import { transactionsSlice } from "../../redux/features/transactions/transaction
 import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { amountConverter } from "../../helpers/amountConverter";
 
 type DepositFundsFormDataType = {
   userId: string;
@@ -34,7 +35,7 @@ export const DepositFunds = () => {
       usersSlice.actions.depositFunds({
         userId: parseInt(data.userId),
         currency: data.currency,
-        amount: parseInt(data.amount),
+        amount: amountConverter(parseFloat(data.amount)),
       })
     );
     dispatch(
@@ -42,13 +43,15 @@ export const DepositFunds = () => {
         id: uuid(),
         userId: parseInt(data.userId),
         currency: data.currency,
-        amount: parseInt(data.amount),
+        amount: amountConverter(parseFloat(data.amount)),
         createdAt: Date.now() / 1000,
         type: "Deposit",
       })
     );
     toast.success(
-      `User ${data.userId} has successfully deposited ${data.amount} ${data.currency}.`
+      `User ${data.userId} has successfully deposited ${amountConverter(
+        parseFloat(data.amount)
+      )} ${data.currency}.`
     );
     reset();
   };

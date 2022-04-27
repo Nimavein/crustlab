@@ -10,6 +10,7 @@ import { v4 as uuid } from "uuid";
 import { transactionsSlice } from "../../redux/features/transactions/transactionsSlice";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { amountConverter } from "../../helpers/amountConverter";
 
 type TransferFundsFormDataType = {
   userFromId: string;
@@ -37,14 +38,14 @@ export const TransferFunds = () => {
     );
     const isBalanceSufficient =
       chosenUser!.balance.find((currency) => currency.symbol === data.currency)!
-        .amount >= parseInt(data.amount);
+        .amount >= amountConverter(parseFloat(data.amount));
     if (isBalanceSufficient) {
       dispatch(
         usersSlice.actions.transferToOtherUser({
           userFromId: parseInt(data.userFromId),
           userToId: parseInt(data.userToId),
           currency: data.currency,
-          amount: parseInt(data.amount),
+          amount: amountConverter(parseFloat(data.amount)),
         })
       );
       dispatch(
@@ -53,17 +54,17 @@ export const TransferFunds = () => {
           userFromId: parseInt(data.userFromId),
           userToId: parseInt(data.userToId),
           currency: data.currency,
-          amount: parseInt(data.amount),
+          amount: amountConverter(parseFloat(data.amount)),
           createdAt: Date.now() / 1000,
           type: "Transfer",
         })
       );
       toast.success(
-        `User ${data.userFromId} has successfully transferred ${data.amount} ${data.currency} to User ${data.userToId}.`
+        `User ${data.userFromId} has successfully transferred ${amountConverter(parseFloat(data.amount))} ${data.currency} to User ${data.userToId}.`
       );
       reset();
-    } 
-     if (!isBalanceSufficient) {
+    }
+    if (!isBalanceSufficient) {
       setError("amount", { type: "custom", message: "Insufficient balance." });
       toast.warning(`Insufficient balance.`);
     }

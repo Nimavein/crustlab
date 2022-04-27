@@ -1,3 +1,4 @@
+import { amountConverter } from "../../../helpers/amountConverter";
 import {
   CurrencyType,
   UserStateType,
@@ -14,7 +15,7 @@ export const User = ({ balance, id }: UserProps) => {
           return (
             <S.BalanceDetail key={symbol}>
               <S.Currency>{symbol}</S.Currency>
-              <S.Amount>{amount}</S.Amount>
+              <S.Amount>{amountConverter(amount)}</S.Amount>
             </S.BalanceDetail>
           );
         })}

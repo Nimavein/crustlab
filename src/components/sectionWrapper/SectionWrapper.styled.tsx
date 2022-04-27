@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const SectionWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-self: center;
+  align-self: stretch;
   justify-content: center;
   gap: 14px;
   padding: 24px;

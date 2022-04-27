@@ -10,6 +10,7 @@ import { v4 as uuid } from "uuid";
 import { transactionsSlice } from "../../redux/features/transactions/transactionsSlice";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { amountConverter } from "../../helpers/amountConverter";
 
 type WithdrawFundsFormDataType = {
   userId: string;
@@ -34,14 +35,14 @@ export const WithdrawFunds = () => {
     const chosenUser = users.find((user) => parseInt(data.userId) === user.id);
     const isBalanceSufficient =
       chosenUser!.balance.find((currency) => currency.symbol === data.currency)!
-        .amount >= parseInt(data.amount);
+        .amount >= amountConverter(parseFloat(data.amount));
 
     if (isBalanceSufficient) {
       dispatch(
         usersSlice.actions.withdrawFunds({
           userId: parseInt(data.userId),
           currency: data.currency,
-          amount: parseInt(data.amount),
+          amount: amountConverter(parseFloat(data.amount)),
         })
       );
       dispatch(
@@ -49,13 +50,15 @@ export const WithdrawFunds = () => {
           id: uuid(),
           userId: parseInt(data.userId),
           currency: data.currency,
-          amount: parseInt(data.amount),
+          amount: amountConverter(parseFloat(data.amount)),
           createdAt: Date.now() / 1000,
           type: "Withdraw",
         })
       );
       toast.success(
-        `User ${chosenUser?.id} has successfully withdrawn ${data.amount} ${data.currency}.`
+        `User ${chosenUser?.id} has successfully withdrawn ${amountConverter(
+          parseFloat(data.amount)
+        )} ${data.currency}.`
       );
       reset();
     }

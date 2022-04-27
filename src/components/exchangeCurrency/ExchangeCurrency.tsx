@@ -12,6 +12,7 @@ import { v4 as uuid } from "uuid";
 import { transactionsSlice } from "../../redux/features/transactions/transactionsSlice";
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
+import { amountConverter } from "../../helpers/amountConverter";
 
 type ExchangeCurrencyFormDataType = {
   userId: string;
@@ -48,8 +49,8 @@ export const ExchangeCurrency = () => {
           userId: parseInt(data.userId),
           currencyFrom: data.currencyFrom,
           currencyTo: data.currencyTo,
-          amountFrom: parseInt(data.amount),
-          amountTo: parseInt(data.amount) * exchangeRate,
+          amountFrom: amountConverter(parseFloat(data.amount)),
+          amountTo: amountConverter(parseFloat(data.amount) * exchangeRate),
         })
       );
 
@@ -59,8 +60,8 @@ export const ExchangeCurrency = () => {
           userId: parseInt(data.userId),
           currencyFrom: data.currencyFrom,
           currencyTo: data.currencyTo,
-          amountFrom: parseInt(data.amount),
-          amountTo: parseInt(data.amount) * exchangeRate,
+          amountFrom: amountConverter(parseFloat(data.amount)),
+          amountTo: amountConverter(parseFloat(data.amount) * exchangeRate),
           createdAt: Date.now() / 1000,
           type: "Exchange",
         })
@@ -68,7 +69,9 @@ export const ExchangeCurrency = () => {
       toast.success(
         `User ${data.userId} has successfully exchanged ${data.amount} ${
           data.currencyFrom
-        } to ${parseInt(data.amount) * exchangeRate} ${data.currencyTo}.`
+        } to ${amountConverter(parseFloat(data.amount) * exchangeRate)} ${
+          data.currencyTo
+        }.`
       );
       reset();
     }
@@ -120,7 +123,7 @@ export const ExchangeCurrency = () => {
           </S.InputErrorWrapper>
         </S.Label>
         <S.Label>
-          <S.LabelText>Currency from</S.LabelText>
+          <S.LabelText>Exchange</S.LabelText>
           <S.Select
             {...register("currencyFrom", {
               required: "Selection of currency is required.",
@@ -140,7 +143,7 @@ export const ExchangeCurrency = () => {
           </S.InputErrorWrapper>
         </S.Label>
         <S.Label>
-          <S.LabelText>Currency to</S.LabelText>
+          <S.LabelText>To</S.LabelText>
           <S.Select
             {...register("currencyTo", {
               required: "Selection of currency is required.",
@@ -178,7 +181,9 @@ export const ExchangeCurrency = () => {
         </S.Label>
         <SC.ExchangeInfoWrapper>
           <SC.ExchangeWrapper>
-            <SC.ExchangeAmount>{watchFields.amount || 0}</SC.ExchangeAmount>
+            <SC.ExchangeAmount>
+              {amountConverter(parseFloat(watchFields.amount)) || 0}
+            </SC.ExchangeAmount>
             <SC.ExchangeCurrency>
               {watchFields.currencyFrom}
             </SC.ExchangeCurrency>
@@ -186,7 +191,8 @@ export const ExchangeCurrency = () => {
           <ArrowRightOutlined />
           <SC.ReceiveWrapper>
             <SC.ReceiveAmount>
-              {parseInt(watchFields.amount) * exchangeRate || 0}
+              {amountConverter(parseFloat(watchFields.amount) * exchangeRate) ||
+                0}
             </SC.ReceiveAmount>
             <SC.ReceiveCurrency>{watchFields.currencyTo}</SC.ReceiveCurrency>
           </SC.ReceiveWrapper>
