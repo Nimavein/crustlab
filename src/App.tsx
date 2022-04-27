@@ -9,12 +9,13 @@ export const App = () => {
 
   useEffect(() => {
     dispatch(fetchCurrencies());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div>
+    <>
       <ToastContainer />
       <Homepage />
-    </div>
+    </>
   );
 };

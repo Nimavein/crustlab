@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
 import { AvailableCurrencies } from "../users/usersSlice";
 
 export type TransactionType = {

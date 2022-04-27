@@ -8,7 +8,8 @@ import { SectionWrapper } from "../sectionWrapper/SectionWrapper";
 import * as S from "../formElements/FormElements.styled";
 import { v4 as uuid } from "uuid";
 import { transactionsSlice } from "../../redux/features/transactions/transactionsSlice";
-import dayjs from "dayjs";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 type TransferFundsFormDataType = {
   userFromId: string;
@@ -27,29 +28,53 @@ export const TransferFunds = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    setError,
+    setValue,
   } = useForm<TransferFundsFormDataType>();
   const onSubmit = (data: TransferFundsFormDataType) => {
-    dispatch(
-      usersSlice.actions.transferToOtherUser({
-        userFromId: parseInt(data.userFromId),
-        userToId: parseInt(data.userToId),
-        currency: data.currency,
-        amount: parseInt(data.amount),
-      })
+    const chosenUser = users.find(
+      (user) => parseInt(data.userFromId) === user.id
     );
-    dispatch(
-      transactionsSlice.actions.addTransaction({
-        id: uuid(),
-        userFromId: parseInt(data.userFromId),
-        userToId: parseInt(data.userToId),
-        currency: data.currency,
-        amount: parseInt(data.amount),
-        createdAt: Date.now() / 1000,
-        type: "Transfer",
-      })
-    );
-    reset();
+    const isBalanceSufficient =
+      chosenUser!.balance.find((currency) => currency.symbol === data.currency)!
+        .amount >= parseInt(data.amount);
+    if (isBalanceSufficient) {
+      dispatch(
+        usersSlice.actions.transferToOtherUser({
+          userFromId: parseInt(data.userFromId),
+          userToId: parseInt(data.userToId),
+          currency: data.currency,
+          amount: parseInt(data.amount),
+        })
+      );
+      dispatch(
+        transactionsSlice.actions.addTransaction({
+          id: uuid(),
+          userFromId: parseInt(data.userFromId),
+          userToId: parseInt(data.userToId),
+          currency: data.currency,
+          amount: parseInt(data.amount),
+          createdAt: Date.now() / 1000,
+          type: "Transfer",
+        })
+      );
+      toast.success(
+        `User ${data.userFromId} has successfully transferred ${data.amount} ${data.currency} to User ${data.userToId}.`
+      );
+      reset();
+    } else {
+      setError("amount", { type: "custom", message: "Insufficient balance." });
+      toast.warning(`Insufficient balance.`);
+    }
   };
+
+  useEffect(() => {
+    if (currencies) {
+      setValue("currency", currencies[0]?.symbol);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currencies]);
+
   return (
     <SectionWrapper title="Transfer funds">
       <S.Form onSubmit={handleSubmit(onSubmit)}>

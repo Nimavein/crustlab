@@ -3,6 +3,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { AvailableCurrencies } from "../users/usersSlice";
 
 export const fetchCurrencies = createAsyncThunk(
   "currencies/fetchCurrencies",
@@ -25,7 +26,7 @@ type CurrencyValueType = {
 };
 
 type CurrencyType = {
-  symbol: string;
+  symbol: AvailableCurrencies;
   value: CurrencyValueType[];
 };
 
@@ -57,6 +58,9 @@ export const currenciesSlice = createSlice({
       .addCase(fetchCurrencies.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
+        toast.error(
+          `There was an error while fetching currencies exchange rates. ${action.error.message}`
+        );
       });
   },
 });

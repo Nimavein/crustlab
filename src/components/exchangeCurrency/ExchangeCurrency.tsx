@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   AvailableCurrencies,
@@ -6,9 +7,11 @@ import {
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { SectionWrapper } from "../sectionWrapper/SectionWrapper";
 import * as S from "../formElements/FormElements.styled";
+import * as SC from "./ExchangeCurrency.styled";
 import { v4 as uuid } from "uuid";
 import { transactionsSlice } from "../../redux/features/transactions/transactionsSlice";
-import dayjs from "dayjs";
+import { ArrowRightOutlined } from "@ant-design/icons";
+import { toast } from "react-toastify";
 
 type ExchangeCurrencyFormDataType = {
   userId: string;
@@ -20,6 +23,7 @@ type ExchangeCurrencyFormDataType = {
 export const ExchangeCurrency = () => {
   const users = useAppSelector((state) => state.users);
   const { currencies } = useAppSelector((state) => state.currencies);
+  const [exchangeRate, setExchangeRate] = useState(1);
   const dispatch = useAppDispatch();
 
   const {
@@ -27,39 +31,70 @@ export const ExchangeCurrency = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    watch,
+    setValue,
+    setError,
   } = useForm<ExchangeCurrencyFormDataType>();
   const onSubmit = (data: ExchangeCurrencyFormDataType) => {
-    const currencyFrom: any = currencies.find(
-      (currency) => currency.symbol === data.currencyFrom
-    );
+    const chosenUser = users.find((user) => parseInt(data.userId) === user.id);
+    const isBalanceSufficient =
+      chosenUser!.balance.find(
+        (currency) => currency.symbol === data.currencyFrom
+      )!.amount >= parseInt(data.amount);
 
-    const exchangeRate: any = currencyFrom.value[data.currencyTo];
+    if (isBalanceSufficient) {
+      dispatch(
+        usersSlice.actions.exchangeCurrency({
+          userId: parseInt(data.userId),
+          currencyFrom: data.currencyFrom,
+          currencyTo: data.currencyTo,
+          amountFrom: parseInt(data.amount),
+          amountTo: parseInt(data.amount) * exchangeRate,
+        })
+      );
 
-    dispatch(
-      usersSlice.actions.exchangeCurrency({
-        userId: parseInt(data.userId),
-        currencyFrom: data.currencyFrom,
-        currencyTo: data.currencyTo,
-        amountFrom: parseInt(data.amount),
-        amountTo: parseInt(data.amount) * exchangeRate,
-      })
-    );
-
-    dispatch(
-      transactionsSlice.actions.addTransaction({
-        id: uuid(),
-        userId: parseInt(data.userId),
-        currencyFrom: data.currencyFrom,
-        currencyTo: data.currencyTo,
-        amountFrom: parseInt(data.amount),
-        amountTo: parseInt(data.amount) * exchangeRate,
-                createdAt: Date.now() / 1000,
-
-        type: "Exchange",
-      })
-    );
-    reset();
+      dispatch(
+        transactionsSlice.actions.addTransaction({
+          id: uuid(),
+          userId: parseInt(data.userId),
+          currencyFrom: data.currencyFrom,
+          currencyTo: data.currencyTo,
+          amountFrom: parseInt(data.amount),
+          amountTo: parseInt(data.amount) * exchangeRate,
+          createdAt: Date.now() / 1000,
+          type: "Exchange",
+        })
+      );
+      toast.success(
+        `User ${data.userId} has successfully exchanged ${data.amount} ${
+          data.currencyFrom
+        } to ${parseInt(data.amount) * exchangeRate} ${data.currencyTo}.`
+      );
+      reset();
+    } else {
+      setError("amount", { type: "custom", message: "Insufficient balance." });
+      toast.warning(`Insufficient balance.`);
+    }
   };
+  const watchFields = watch();
+
+  useEffect(() => {
+    if (currencies) {
+      setValue("currencyFrom", currencies[0]?.symbol);
+      setValue("currencyTo", currencies[0]?.symbol);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currencies]);
+
+  useEffect(() => {
+    const currencyFrom: any = currencies.find(
+      (currency) => currency.symbol === watchFields.currencyFrom
+    );
+    const exchangeRate: number = currencyFrom?.value[watchFields.currencyTo];
+    setExchangeRate(exchangeRate);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchFields]);
+
   return (
     <SectionWrapper title="Exchange currency">
       <S.Form onSubmit={handleSubmit(onSubmit)}>
@@ -138,7 +173,21 @@ export const ExchangeCurrency = () => {
             )}
           </S.InputErrorWrapper>
         </S.Label>
-
+        <SC.ExchangeInfoWrapper>
+          <SC.ExchangeWrapper>
+            <SC.ExchangeAmount>{watchFields.amount || 0}</SC.ExchangeAmount>
+            <SC.ExchangeCurrency>
+              {watchFields.currencyFrom}
+            </SC.ExchangeCurrency>
+          </SC.ExchangeWrapper>
+          <ArrowRightOutlined />
+          <SC.ReceiveWrapper>
+            <SC.ReceiveAmount>
+              {parseInt(watchFields.amount) * exchangeRate || 0}
+            </SC.ReceiveAmount>
+            <SC.ReceiveCurrency>{watchFields.currencyTo}</SC.ReceiveCurrency>
+          </SC.ReceiveWrapper>
+        </SC.ExchangeInfoWrapper>
         <S.SubmitButton type="submit">Exchange</S.SubmitButton>
       </S.Form>
     </SectionWrapper>

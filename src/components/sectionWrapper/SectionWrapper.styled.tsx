@@ -6,7 +6,7 @@ export const SectionWrapper = styled.div`
   align-self: center;
   justify-content: center;
   gap: 14px;
-  padding: 60px;
+  padding: 24px;
   border-radius: 30px;
   background: ${({ theme }) => theme.color.black};
   color: ${({ theme }) => theme.color.white};
@@ -14,7 +14,6 @@ export const SectionWrapper = styled.div`
 
   @media ${({ theme }) => theme.medias.mobile} {
     width: 100%;
-    padding: 24px;
     border-radius: 18px;
   }
 `;

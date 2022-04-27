@@ -4,7 +4,6 @@ import moment from "moment";
 import { useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { SectionWrapper } from "../sectionWrapper/SectionWrapper";
-import * as S from "./Transactions.styled";
 
 export const Transactions = () => {
   const transactions = useAppSelector((state) => state.transactions);
@@ -221,7 +220,7 @@ export const Transactions = () => {
   ];
 
   return (
-    <SectionWrapper title="Transactions">
+    <SectionWrapper title="Operations">
       <Table
         bordered
         pagination={false}

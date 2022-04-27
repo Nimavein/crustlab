@@ -9,6 +9,7 @@ import * as S from "../formElements/FormElements.styled";
 import { v4 as uuid } from "uuid";
 import { transactionsSlice } from "../../redux/features/transactions/transactionsSlice";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 type WithdrawFundsFormDataType = {
   userId: string;
@@ -27,6 +28,7 @@ export const WithdrawFunds = () => {
     reset,
     formState: { errors },
     setError,
+    setValue,
   } = useForm<WithdrawFundsFormDataType>();
   const onSubmit = (data: WithdrawFundsFormDataType) => {
     const chosenUser = users.find((user) => parseInt(data.userId) === user.id);
@@ -61,6 +63,14 @@ export const WithdrawFunds = () => {
       toast.warning(`Insufficient balance.`);
     }
   };
+
+  useEffect(() => {
+    if (currencies) {
+      setValue("currency", currencies[0]?.symbol);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currencies]);
+
   return (
     <SectionWrapper title="Withdraw funds">
       <S.Form onSubmit={handleSubmit(onSubmit)}>

@@ -8,6 +8,8 @@ import { SectionWrapper } from "../sectionWrapper/SectionWrapper";
 import * as S from "../formElements/FormElements.styled";
 import { transactionsSlice } from "../../redux/features/transactions/transactionsSlice";
 import { v4 as uuid } from "uuid";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 type DepositFundsFormDataType = {
   userId: string;
@@ -25,6 +27,7 @@ export const DepositFunds = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue,
   } = useForm<DepositFundsFormDataType>();
   const onSubmit = (data: DepositFundsFormDataType) => {
     dispatch(
@@ -44,8 +47,18 @@ export const DepositFunds = () => {
         type: "Deposit",
       })
     );
+    toast.success(
+      `User ${data.userId} has successfully deposited ${data.amount} ${data.currency}.`
+    );
     reset();
   };
+
+  useEffect(() => {
+    if (currencies) {
+      setValue("currency", currencies[0]?.symbol);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currencies]);
   return (
     <SectionWrapper title="Deposit funds">
       <S.Form onSubmit={handleSubmit(onSubmit)}>
