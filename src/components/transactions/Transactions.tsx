@@ -228,6 +228,7 @@ export const Transactions = () => {
         dataSource={transactions}
         size="middle"
         scroll={{ y: 300, x: "100vw" }}
+        rowKey="id"
       />
     </SectionWrapper>
   );
