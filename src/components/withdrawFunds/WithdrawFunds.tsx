@@ -126,6 +126,11 @@ export const WithdrawFunds = () => {
             min={0}
             {...register("amount", {
               required: "Amount is required.",
+              validate: {
+                isPositive: (value) =>
+                  amountConverter(parseFloat(value)) > 0 ||
+                  `The amount must be greater than 0.`,
+              },
             })}
             name="amount"
             placeholder="Enter amount"

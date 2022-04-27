@@ -108,6 +108,12 @@ export const usersSlice = createSlice({
         (currency) => currency.symbol === action.payload.currency
       )!.amount += amountConverter(action.payload.amount);
     },
+    addUser(state, action: PayloadAction<CurrencyType[]>) {
+      state.push({
+        id: state.length + 1,
+        balance: action.payload,
+      });
+    },
   },
 });
 
