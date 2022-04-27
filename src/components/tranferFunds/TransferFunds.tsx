@@ -62,7 +62,8 @@ export const TransferFunds = () => {
         `User ${data.userFromId} has successfully transferred ${data.amount} ${data.currency} to User ${data.userToId}.`
       );
       reset();
-    } else {
+    } 
+     if (!isBalanceSufficient) {
       setError("amount", { type: "custom", message: "Insufficient balance." });
       toast.warning(`Insufficient balance.`);
     }

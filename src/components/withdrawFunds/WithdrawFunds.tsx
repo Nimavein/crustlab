@@ -58,7 +58,8 @@ export const WithdrawFunds = () => {
         `User ${chosenUser?.id} has successfully withdrawn ${data.amount} ${data.currency}.`
       );
       reset();
-    } else {
+    }
+    if (!isBalanceSufficient) {
       setError("amount", { type: "custom", message: "Insufficient balance." });
       toast.warning(`Insufficient balance.`);
     }

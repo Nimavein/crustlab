@@ -71,7 +71,8 @@ export const ExchangeCurrency = () => {
         } to ${parseInt(data.amount) * exchangeRate} ${data.currencyTo}.`
       );
       reset();
-    } else {
+    }
+    if (!isBalanceSufficient) {
       setError("amount", { type: "custom", message: "Insufficient balance." });
       toast.warning(`Insufficient balance.`);
     }
@@ -164,7 +165,9 @@ export const ExchangeCurrency = () => {
             type="number"
             step={0.01}
             min={0}
-            {...register("amount")}
+            {...register("amount", {
+              required: "Amount is required.",
+            })}
             name="amount"
           />
           <S.InputErrorWrapper>

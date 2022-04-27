@@ -26,9 +26,7 @@ export const SubmitButton = styled.button`
   cursor: pointer;
   padding: 12px 24px;
   border-radius: 6px;
-  @media ${({ theme }) => theme.medias.mobile} {
-    width: 100%;
-  }
+  width: 100%;
 `;
 export const InputErrorWrapper = styled.div``;
 export const InputErrorText = styled.p`
