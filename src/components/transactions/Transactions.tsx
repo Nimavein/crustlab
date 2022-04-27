@@ -109,13 +109,13 @@ export const Transactions = () => {
       title: "ID",
       dataIndex: "id",
       key: "id",
-      width: 100,
+      width: 80,
     },
     {
       title: "Type",
       dataIndex: "type",
       key: "type",
-      width: 100,
+      width: 80,
       filters: [
         {
           text: "Deposit",
@@ -141,7 +141,7 @@ export const Transactions = () => {
       title: "Date",
       dataIndex: "createdAt",
       key: "createdAt",
-      width: 100,
+      width: 80,
       sorter: (a: any, b: any) => a.createdAt - b.createdAt,
       ...getColumnSearchProps("createdAt"),
       render: (createdAt: number) =>
@@ -151,21 +151,21 @@ export const Transactions = () => {
       title: "Amount",
       dataIndex: "amount",
       key: "amount",
-      width: 100,
+      width: 80,
       sorter: (a: any, b: any) => a.amount - b.amount,
     },
     {
       title: "Amount sending",
       dataIndex: "amountFrom",
       key: "amountFrom",
-      width: 100,
+      width: 80,
       sorter: (a: any, b: any) => a.amount - b.amount,
     },
     {
       title: "Amount receiving",
       dataIndex: "amountTo",
       key: "amountTo",
-      width: 100,
+      width: 80,
       sorter: (a: any, b: any) => a.amount - b.amount,
     },
 
@@ -173,7 +173,7 @@ export const Transactions = () => {
       title: "Currency",
       dataIndex: "currency",
       key: "currency",
-      width: 100,
+      width: 80,
       filters: currencyFilter,
       filterSearch: true,
       onFilter: (value: any, record: any) =>
@@ -182,22 +182,22 @@ export const Transactions = () => {
         record?.currencyTo?.includes(value),
     },
     {
-      title: "Currency from",
+      title: "Currency sending",
       dataIndex: "currencyFrom",
       key: "currencyFrom",
-      width: 100,
+      width: 80,
     },
     {
-      title: "Currency to",
+      title: "Currency receiving",
       dataIndex: "currencyTo",
       key: "currencyTo",
-      width: 100,
+      width: 80,
     },
     {
       title: "User ID",
       dataIndex: "userId",
       key: "userId",
-      width: 100,
+      width: 80,
       filters: usersFilter,
       filterSearch: true,
       onFilter: (value: any, record: any) =>
@@ -209,13 +209,13 @@ export const Transactions = () => {
       title: "User sending ID",
       dataIndex: "userFromId",
       key: "userFromId",
-      width: 100,
+      width: 80,
     },
     {
       title: "User receiving ID",
       dataIndex: "userToId",
       key: "userToId",
-      width: 100,
+      width: 80,
     },
   ];
 
