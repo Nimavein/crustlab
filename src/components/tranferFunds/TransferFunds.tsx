@@ -60,7 +60,9 @@ export const TransferFunds = () => {
         })
       );
       toast.success(
-        `User ${data.userFromId} has successfully transferred ${amountConverter(parseFloat(data.amount))} ${data.currency} to User ${data.userToId}.`
+        `User ${data.userFromId} has successfully transferred ${amountConverter(
+          parseFloat(data.amount)
+        )} ${data.currency} to User ${data.userToId}.`
       );
       reset();
     }
@@ -81,7 +83,7 @@ export const TransferFunds = () => {
     <SectionWrapper title="Transfer funds">
       <S.Form onSubmit={handleSubmit(onSubmit)}>
         <S.Label>
-          <S.LabelText>User from</S.LabelText>
+          <S.LabelText>User sending</S.LabelText>
           <S.Select
             {...register("userFromId", {
               required: "User selection is required.",
@@ -101,7 +103,7 @@ export const TransferFunds = () => {
           </S.InputErrorWrapper>
         </S.Label>
         <S.Label>
-          <S.LabelText>User to</S.LabelText>
+          <S.LabelText>User receiving</S.LabelText>
           <S.Select
             {...register("userToId", {
               required: "User selection is required.",
@@ -150,6 +152,7 @@ export const TransferFunds = () => {
               required: "Amount is required.",
             })}
             name="amount"
+            placeholder="Enter amount"
           />
           <S.InputErrorWrapper>
             {errors.amount && (

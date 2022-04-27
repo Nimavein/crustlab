@@ -115,6 +115,7 @@ export const DepositFunds = () => {
               required: "Amount is required.",
             })}
             name="amount"
+            placeholder="Enter amount"
           />
           <S.InputErrorWrapper>
             {errors.amount && (
