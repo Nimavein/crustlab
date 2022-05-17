@@ -11,6 +11,7 @@ import { transactionsSlice } from "../../redux/features/transactions/transaction
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { amountConverter } from "../../helpers/amountConverter";
+import { Button } from "antd";
 
 type WithdrawFundsFormDataType = {
   userId: string;
@@ -141,7 +142,9 @@ export const WithdrawFunds = () => {
             )}
           </S.InputErrorWrapper>
         </S.Label>
-        <S.SubmitButton type="submit">Withdraw</S.SubmitButton>
+        <Button block type="primary" htmlType="submit">
+          Withdraw
+        </Button>
       </S.Form>
     </SectionWrapper>
   );

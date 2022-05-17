@@ -13,10 +13,12 @@ export const HomepageWrapper = styled.section`
 `;
 
 export const OperationsWrapper = styled.section`
-  display: flex;
   gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 
   @media ${({ theme }) => theme.medias.medium} {
+    display: flex;
     flex-direction: column;
     width: 100%;
   }

@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import { useState } from "react";
 import { useAppSelector } from "../../redux/hooks";
 import { SectionWrapper } from "../sectionWrapper/SectionWrapper";
@@ -16,9 +16,14 @@ export const Users = () => {
 
   return (
     <SectionWrapper title="Users">
-      <S.AddUserButton onClick={() => setIsModalVisible(true)}>
+      <Button
+        onClick={() => setIsModalVisible(true)}
+        block
+        type="primary"
+        htmlType="submit"
+      >
         Add user
-      </S.AddUserButton>
+      </Button>
       <S.UsersWrapper>
         {users.map(({ balance, id }) => (
           <User key={id} balance={balance} id={id} />

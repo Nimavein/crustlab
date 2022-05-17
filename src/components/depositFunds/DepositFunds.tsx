@@ -11,6 +11,7 @@ import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { amountConverter } from "../../helpers/amountConverter";
+import { Button } from "antd";
 
 type DepositFundsFormDataType = {
   userId: string;
@@ -113,11 +114,11 @@ export const DepositFunds = () => {
             min={0}
             {...register("amount", {
               required: "Amount is required.",
-                validate: {
-                  isPositive: (value) =>
-                    amountConverter(parseFloat(value)) > 0 ||
-                    `The amount must be greater than 0.`,
-                },
+              validate: {
+                isPositive: (value) =>
+                  amountConverter(parseFloat(value)) > 0 ||
+                  `The amount must be greater than 0.`,
+              },
             })}
             name="amount"
             placeholder="Enter amount"
@@ -128,7 +129,9 @@ export const DepositFunds = () => {
             )}
           </S.InputErrorWrapper>
         </S.Label>
-        <S.SubmitButton type="submit">Deposit</S.SubmitButton>
+        <Button block type="primary" htmlType="submit">
+          Deposit
+        </Button>
       </S.Form>
     </SectionWrapper>
   );

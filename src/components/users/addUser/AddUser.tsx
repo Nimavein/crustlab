@@ -6,6 +6,7 @@ import * as S from "../../formElements/FormElements.styled";
 import { toast } from "react-toastify";
 import { amountConverter } from "../../../helpers/amountConverter";
 import React from "react";
+import { Button } from "antd";
 
 type WithdrawFundsFormDataType = {
   PLN: string;
@@ -71,7 +72,9 @@ export const AddUser = ({ setIsModalVisible }: AddUserPropsType) => {
             </S.InputErrorWrapper>
           </S.Label>
         ))}
-        <S.SubmitButton type="submit">Add</S.SubmitButton>
+        <Button block type="primary" htmlType="submit">
+          Add
+        </Button>
       </S.Form>
     </SectionWrapper>
   );

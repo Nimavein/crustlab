@@ -13,6 +13,7 @@ import { transactionsSlice } from "../../redux/features/transactions/transaction
 import { ArrowRightOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import { amountConverter } from "../../helpers/amountConverter";
+import { Button } from "antd";
 
 type ExchangeCurrencyFormDataType = {
   userId: string;
@@ -170,11 +171,11 @@ export const ExchangeCurrency = () => {
             min={0}
             {...register("amount", {
               required: "Amount is required.",
-                validate: {
-                  isPositive: (value) =>
-                    amountConverter(parseFloat(value)) > 0 ||
-                    `The amount must be greater than 0.`,
-                },
+              validate: {
+                isPositive: (value) =>
+                  amountConverter(parseFloat(value)) > 0 ||
+                  `The amount must be greater than 0.`,
+              },
             })}
             name="amount"
             placeholder="Enter amount"
@@ -203,7 +204,9 @@ export const ExchangeCurrency = () => {
             <SC.ReceiveCurrency>{watchFields.currencyTo}</SC.ReceiveCurrency>
           </SC.ReceiveWrapper>
         </SC.ExchangeInfoWrapper>
-        <S.SubmitButton type="submit">Exchange</S.SubmitButton>
+        <Button block type="primary" htmlType="submit">
+          Exchange
+        </Button>
       </S.Form>
     </SectionWrapper>
   );

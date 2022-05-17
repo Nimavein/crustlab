@@ -24,22 +24,6 @@ export const Input = styled.input`
   border-radius: 4px;
   color: ${({ theme }) => theme.color.black};
 `;
-export const SubmitButton = styled.button`
-  border: 1px solid ${({ theme }) => theme.color.white};
-  background: transparent;
-  color: ${({ theme }) => theme.color.white};
-  margin-top: auto;
-  cursor: pointer;
-  padding: 12px 24px;
-  border-radius: 6px;
-  width: 100%;
-  &:hover {
-    opacity: 0.9;
-  }
-  @media ${({ theme }) => theme.medias.mobile} {
-    margin-top: 14px;
-  }
-`;
 export const InputErrorWrapper = styled.div`
   min-height: 14px;
   margin-bottom: 4px;

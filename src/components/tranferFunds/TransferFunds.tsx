@@ -11,6 +11,7 @@ import { transactionsSlice } from "../../redux/features/transactions/transaction
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { amountConverter } from "../../helpers/amountConverter";
+import { Button } from "antd";
 
 type TransferFundsFormDataType = {
   userFromId: string;
@@ -150,11 +151,11 @@ export const TransferFunds = () => {
             min={0}
             {...register("amount", {
               required: "Amount is required.",
-                validate: {
-                  isPositive: (value) =>
-                    amountConverter(parseFloat(value)) > 0 ||
-                    `The amount must be greater than 0.`,
-                },
+              validate: {
+                isPositive: (value) =>
+                  amountConverter(parseFloat(value)) > 0 ||
+                  `The amount must be greater than 0.`,
+              },
             })}
             name="amount"
             placeholder="Enter amount"
@@ -165,7 +166,9 @@ export const TransferFunds = () => {
             )}
           </S.InputErrorWrapper>
         </S.Label>
-        <S.SubmitButton type="submit">Transfer</S.SubmitButton>
+        <Button block type="primary" htmlType="submit">
+          Transfer
+        </Button>
       </S.Form>
     </SectionWrapper>
   );

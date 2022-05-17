@@ -1,4 +1,6 @@
+import { Card } from "antd";
 import { HTMLAttributes } from "react";
+import { theme } from "../../style";
 import * as S from "./SectionWrapper.styled";
 
 type SectionWrapperProps = {
@@ -9,8 +11,8 @@ export const SectionWrapper = ({
   title,
   children,
 }: SectionWrapperProps & HTMLAttributes<HTMLDivElement>) => (
-    <S.SectionWrapper>
-      <S.Title>{title}</S.Title>
-      {children}
-    </S.SectionWrapper>
+  <Card style={{ backgroundColor: theme.color.whiteLight }}>
+    <S.Title>{title}</S.Title>
+    {children}
+  </Card>
 );
